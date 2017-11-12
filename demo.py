@@ -73,8 +73,8 @@ def find_tumor(image):
     
     # Filter by colour
     # Purple for Tumor
-    min_color = np.array([100, 100, 80])
-    max_color = np.array([175, 256, 256])
+    min_color = np.array([80, 100, 80])
+    max_color = np.array([120, 256, 256])
     #layer
     mask1 = cv2.inRange(image_blur_hsv, min_color, max_color)
 
@@ -115,10 +115,10 @@ def find_tumor(image):
     return bgr
 
 #read the image
-image = cv2.imread('liver1.jpg')
+image = cv2.imread('img-10.jpg')
 #detect it
 result = find_tumor(image)
 #print result
 #write the new image
-cv2.imwrite('result2.jpg', result)
+cv2.imwrite('res-10.jpg', result)
 #work

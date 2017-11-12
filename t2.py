@@ -14,8 +14,9 @@ from plotly import __version__
 #from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
 import plotly.figure_factory as FF
 from plotly.graph_objs import *
-#init_notebook_mode(connected=True) 
-
+from PIL.Image import fromarray
+import cv2
+#init_notebook_mode(connected=True)
 
 def load_scan(path):
     slices = [dicom.read_file(path + '/' + s) for s in os.listdir(path)]
@@ -181,25 +182,25 @@ def make_livermask(img, display):
     mask = morphology.dilation(mask,np.ones([10,10])) # one last dilation
 
     if (display):
-        fig, ax = plt.subplots(3, 2, figsize=[12, 12])
+        fig, ax = plt.subplots(3, 2, figsize=[25, 25])
         ax[0, 0].set_title("Original")
         ax[0, 0].imshow(img, cmap='gray')
         ax[0, 0].axis('off')
-        ax[0, 1].set_title("Threshold")
-        ax[0, 1].imshow(thresh_img, cmap='gray')
-        ax[0, 1].axis('off')
-        ax[1, 0].set_title("After Erosion and Dilation")
-        ax[1, 0].imshow(dilation, cmap='gray')
-        ax[1, 0].axis('off')
-        ax[1, 1].set_title("Color Labels")
-        ax[1, 1].imshow(labels)
-        ax[1, 1].axis('off')
-        ax[2, 0].set_title("Final Mask")
-        ax[2, 0].imshow(mask, cmap='gray')
-        ax[2, 0].axis('off')
-        ax[2, 1].set_title("Apply Mask on Original")
-        ax[2, 1].imshow(mask*img, cmap='gray')
-        ax[2, 1].axis('off')
+        #ax[0, 1].set_title("Threshold")
+        #ax[0, 1].imshow(thresh_img, cmap='gray')
+        #ax[0, 1].axis('off')
+        #ax[1, 0].set_title("After Erosion and Dilation")
+        #ax[1, 0].imshow(dilation, cmap='gray')
+        #ax[1, 0].axis('off')
+        #ax[1, 1].set_title("Color Labels")
+        #ax[1, 1].imshow(labels)
+        #ax[1, 1].axis('off')
+        #ax[2, 0].set_title("Final Mask")
+        #ax[2, 0].imshow(mask, cmap='gray')
+        #ax[2, 0].axis('off')
+        #ax[2, 1].set_title("Apply Mask on Original")
+        #ax[2, 1].imshow(mask*img, cmap='gray')
+        #ax[2, 1].axis('off')
         
         plt.show()
     return mask*img
@@ -208,6 +209,7 @@ def make_livermask(img, display):
 id=0
 patient = load_scan("dicom_images/")
 imgs = get_pixels_hu(patient)
+cv2.imwrite('imgtest.jpg',imgs[4])
 np.save("OP/" + "fullimages_%d.npy" % (id), imgs)
 
 file_used="OP/"+"fullimages_%d.npy" % id
@@ -225,12 +227,17 @@ print "Shape before resampling\t", imgs_to_process.shape
 imgs_after_resamp, spacing = resample(imgs_to_process, patient, [1,1,1])
 print "Shape after resampling\t", imgs_after_resamp.shape
 
-v, f = make_mesh(imgs_after_resamp, 350, 2)
+#v, f = make_mesh(imgs_after_resamp, 350, 2)
 #print "-----------"
 #print v
 #print f
 #print "----------"
-plt_3d(v, f)
+#plt_3d(v, f)
 print "crreating masked iamges"
-img = imgs_after_resamp[16]
-make_livermask(img, display=True)
+for i in range(0,len(imgs_to_process)):
+	img = imgs_to_process[i]
+	#make_livermask(img, display=True)
+	cv2.imwrite('OP/img-'+str(i)+'.jpg',img)
+	#im = fromarray(img,'RGB')
+	#im.save('OP/img-'+str(i)+'.jpg')
+	i = i + 1
