@@ -209,7 +209,7 @@ def make_livermask(img, display):
 id=0
 patient = load_scan("dicom_images/")
 imgs = get_pixels_hu(patient)
-cv2.imwrite('imgtest.jpg',imgs[4])
+#cv2.imwrite('imgtest.jpg',imgs[4])
 np.save("OP/" + "fullimages_%d.npy" % (id), imgs)
 
 file_used="OP/"+"fullimages_%d.npy" % id
@@ -223,9 +223,9 @@ imgs_to_process = np.load(file_used).astype(np.float64)
 sample_stack(imgs_to_process)
 
 
-print "Shape before resampling\t", imgs_to_process.shape
+#print "Shape before resampling\t", imgs_to_process.shape
 imgs_after_resamp, spacing = resample(imgs_to_process, patient, [1,1,1])
-print "Shape after resampling\t", imgs_after_resamp.shape
+#print "Shape after resampling\t", imgs_after_resamp.shape
 
 #v, f = make_mesh(imgs_after_resamp, 350, 2)
 #print "-----------"
@@ -233,7 +233,7 @@ print "Shape after resampling\t", imgs_after_resamp.shape
 #print f
 #print "----------"
 #plt_3d(v, f)
-print "crreating masked iamges"
+#print "crreating masked iamges"
 for i in range(0,len(imgs_to_process)):
 	img = imgs_to_process[i]
 	#make_livermask(img, display=True)

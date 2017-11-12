@@ -113,7 +113,7 @@ def find_tumor(image):
     bgr = cv2.cvtColor(circled, cv2.COLOR_RGB2BGR)
     
     return bgr
-
+'''
 #read the image
 image = cv2.imread('img-10.jpg')
 #detect it
@@ -121,4 +121,8 @@ result = find_tumor(image)
 #print result
 #write the new image
 cv2.imwrite('res-10.jpg', result)
-#work
+'''
+for i in range(0, 60):
+	image = cv2.imread('OP/JHS/img-'+str(i)+'.jpg')
+	result = find_tumor(image)
+	cv2.imwrite('RESULT/res-'+str(i)+'.jpg', result)

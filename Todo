@@ -1,0 +1,21 @@
+1)
+Option 1: Apply hue mask for purple to find liver
+	Intersect with current tumor elipse (green) for respective image
+Option 2: Detect liver by searching for Purple Hue. Mask the rest of the image(by uncommenting code in tumor detection)
+	Then find green in the masked image.
+
+
+Problem with (1) - We dont know how to do the intersection
+
+2) We need code to calculate area of elipse and then find volume, % of tumor etc
+
+
+Questions to be asked: 
+
+1) Which option is better?
+2) Is the amount error acceptable?
+3) Number of samples?
+4) Sample step size?
+5) pic 7 - 19 has liver. Rest samples are useless. Do we require these?
+6) How should the final report be?
+7) Tips on final PPT for current progress
