@@ -2,5 +2,4 @@
 Detection of tumor in Liver using Computer Vision on CT images 
 
 Members:
-Ashwin Lokkur
-Aniruddh Iyer
+Ashwin Lokkur, Aniruddh Iyer
