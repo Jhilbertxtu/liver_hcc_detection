@@ -121,3 +121,4 @@ result = find_tumor(image)
 #print result
 #write the new image
 cv2.imwrite('result3.jpg', result)
+#work2
