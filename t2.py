@@ -16,6 +16,8 @@ import plotly.figure_factory as FF
 from plotly.graph_objs import *
 from PIL.Image import fromarray
 import cv2
+import glob
+import mudicom
 #init_notebook_mode(connected=True)
 
 def load_scan(path):
@@ -234,9 +236,15 @@ imgs_after_resamp, spacing = resample(imgs_to_process, patient, [1,1,1])
 #print "----------"
 #plt_3d(v, f)
 #print "crreating masked iamges"
+og_names = glob.glob('dicom_images/*.dcm')
+
+for n in og_names:
+	og_img = mudicom.load(n)
+	og_img.read()
+	i = og_img.image
+	i.save_as_plt('OP_OG/'+n.split('/')[1][:-3]+".jpg")
 for i in range(0,len(imgs_to_process)):
 	img = imgs_to_process[i]
-	#make_livermask(img, display=True)
 	cv2.imwrite('OP/img-'+str(i)+'.jpg',img)
 	#im = fromarray(img,'RGB')
 	#im.save('OP/img-'+str(i)+'.jpg')

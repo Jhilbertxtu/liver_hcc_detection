@@ -72,9 +72,9 @@ def find_tumor(image):
     image_blur_hsv = cv2.cvtColor(image_blur, cv2.COLOR_RGB2HSV)
     
     # Filter by colour
-    # Purple for Tumor
+    # Green for Tumor
     min_color = np.array([80, 100, 80])
-    max_color = np.array([120, 256, 256])
+    max_color = np.array([115, 256, 256])
     #layer
     mask1 = cv2.inRange(image_blur_hsv, min_color, max_color)
 
