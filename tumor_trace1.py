@@ -36,7 +36,13 @@ def find_biggest_contour(image):
     #Isolate largest contour
     '''
     contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
-    biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
+    
+    biggest_contour=[]
+    biggest_contour.append(max(contour_sizes, key=lambda x: x[0])[1])
+    try:
+    	biggest_contour.append(max(contour_sizes, key=lambda x: x[0])[2])
+    except:
+    	pass
     '''
     mask = np.zeros(image.shape, np.uint8)
     '''
@@ -48,7 +54,9 @@ def find_biggest_contour(image):
 def circle_contour(image, contour):
     #Bounding ellipse
     image_with_contour = image.copy()
+    #for i in range(1,5):
     cv2.drawContours(image_with_contour, contour, -1, (255,0,0), 5)
+    #cv2.drawContours(image_with_contour, contour, 1, (255,0,0), 5)
     '''
     #easy function
     ellipse = cv2.fitEllipse(contour)
@@ -82,8 +90,8 @@ def find_tumor(image):
     
     # Filter by colour
     # Purple for Tumor
-    min_color = np.array([85, 100, 80])
-    max_color = np.array([115, 256, 256])
+    min_color = np.array([30, 100, 80])
+    max_color = np.array([110, 256, 256])
     #layer
     mask1 = cv2.inRange(image_blur_hsv, min_color, max_color)
 
