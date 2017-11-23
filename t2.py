@@ -30,7 +30,7 @@ def load_scan(path):
         
     for s in slices:
         s.SliceThickness = slice_thickness
-        
+       	s.WindowWidth = ['00120','00080']
     return slices
 
 def get_pixels_hu(scans):
@@ -162,7 +162,7 @@ def make_livermask(img, display):
     # We don't want to accidentally clip the lung.
 
     eroded = morphology.erosion(thresh_img,np.ones([3,3]))
-    dilation = morphology.dilation(eroded,np.ones([8,8]))
+    dilation = morphology.dilation(eroded,np.ones([16,16]))
 
     labels = measure.label(dilation) # Different labels are displayed in different colors
     label_vals = np.unique(labels)
@@ -194,9 +194,9 @@ def make_livermask(img, display):
         #ax[1, 0].set_title("After Erosion and Dilation")
         #ax[1, 0].imshow(dilation, cmap='gray')
         #ax[1, 0].axis('off')
-        #ax[1, 1].set_title("Color Labels")
-        #ax[1, 1].imshow(labels)
-        #ax[1, 1].axis('off')
+        ax[1, 1].set_title("Color Labels")
+        ax[1, 1].imshow(labels)
+        ax[1, 1].axis('off')
         #ax[2, 0].set_title("Final Mask")
         #ax[2, 0].imshow(mask, cmap='gray')
         #ax[2, 0].axis('off')
@@ -236,6 +236,8 @@ imgs_after_resamp, spacing = resample(imgs_to_process, patient, [1,1,1])
 #print "----------"
 #plt_3d(v, f)
 #print "crreating masked iamges"
+#make_livermask(imgs_after_resamp[36],display=True)
+
 og_names = glob.glob('dicom_images/*.dcm')
 
 for n in og_names:
@@ -243,9 +245,24 @@ for n in og_names:
 	og_img.read()
 	i = og_img.image
 	i.save_as_plt('OP_OG/'+n.split('/')[1][:-3]+".jpg")
-for i in range(0,len(imgs_to_process)):
-	img = imgs_to_process[i]
-	cv2.imwrite('OP/img-'+str(i)+'.jpg',img)
-	#im = fromarray(img,'RGB')
+for i in range(0,len(imgs_after_resamp)):
+	img = imgs_after_resamp[i]
+	cv2.imwrite('OP/img-'+str(i).zfill(8)+'.jpg',img)
+	im = fromarray(img,'RGB')
 	#im.save('OP/img-'+str(i)+'.jpg')
 	i = i + 1
+#for i in patients:
+#	img = p.pixel_array
+#	
+#	#scaled_img = cv2.convertScaleAbs(img-p.Window, alpha=(255.0 /window_width)
+#	cv2.imwrite('OP/img-'+str(i)+'.jpg',img)
+#	im = fromarray(img,'RGB')
+##	i = i + 1
+
+windowed_names = glob.glob('OP/img-*.jpg')
+#for w in windowed_names:
+#	i = cv2.imread("OP_OG/img-9.jpg")
+#	make_livermask(i,display=True)
+#	break
+	
+

@@ -34,21 +34,30 @@ def find_biggest_contour(image):
     #we dont need it
     image, contours, hierarchy = cv2.findContours(image, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     #Isolate largest contour
+    '''
     contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
     biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
-
+    '''
     mask = np.zeros(image.shape, np.uint8)
+    '''
     cv2.drawContours(mask, [biggest_contour], -1, 255, -1)
     return biggest_contour, mask
+    '''
+    return contours, mask
 
 def circle_contour(image, contour):
     #Bounding ellipse
-    image_with_ellipse = image.copy()
+    image_with_contour = image.copy()
+    cv2.drawContours(image_with_contour, contour, -1, (255,0,0), 5)
+    '''
     #easy function
     ellipse = cv2.fitEllipse(contour)
     #add it
-    cv2.ellipse(image_with_ellipse, ellipse, green, 2, cv2.LINE_AA)
-    return image_with_ellipse
+    cv2.ellipse(image_with_contour, ellipse, green, 2, cv2.LINE_AA)
+    '''
+    #cv2.imshow("img",image_with_contour)
+    #cv2.waitKey(0)
+    return image_with_contour
 
 def find_tumor(image):
     # we'll be manipulating pixels directly
@@ -73,8 +82,8 @@ def find_tumor(image):
     
     # Filter by colour
     # Purple for Tumor
-    min_color = np.array([0, 100, 80])
-    max_color = np.array([20, 256, 256])
+    min_color = np.array([85, 100, 80])
+    max_color = np.array([115, 256, 256])
     #layer
     mask1 = cv2.inRange(image_blur_hsv, min_color, max_color)
 
@@ -115,10 +124,11 @@ def find_tumor(image):
     return bgr
 
 #read the image
-image = cv2.imread('liver2.jpg')
+#image = cv2.imread('OP/JHS/img-8.jpg')
+image = cv2.imread('aniresult8.jpg')
 #detect it
 result = find_tumor(image)
 #print result
 #write the new image
-cv2.imwrite('result3.jpg', result)
+cv2.imwrite('result8.jpg', result)
 #work2
