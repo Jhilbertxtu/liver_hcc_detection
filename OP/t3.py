@@ -11,10 +11,8 @@ c = cv2.applyColorMap(g, cv2.COLORMAP_JET)
 c2 = cv2.applyColorMap(c, cv2.COLORMAP_HSV)
 cv2.imwrite('JHS/img-10.jpg',c2)
 '''
-opnames = glob.glob('*.jpg')
-print opnames
+opnames = glob.glob('OP/*.jpg')
 opnames = sorted(opnames)
-print opnames
 for i in range(0, len(opnames)):
 	#g = cv2.imread('img-'+str(i)+'.jpg',cv2.IMREAD_GRAYSCALE)
 	g = cv2.imread(opnames[i],cv2.IMREAD_GRAYSCALE)

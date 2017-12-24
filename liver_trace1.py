@@ -135,10 +135,11 @@ def find_tumor(image):
 #write the new image
 #cv2.imwrite('aniresult8.jpg', result)
 #work2
-jhs = glob.glob('OP/JHS/*.jpg')
+jhs = glob.glob('JHS/*.jpg')
 jhs = sorted(jhs)
 
 for i in range(0, len(jhs)):
 	img = cv2.imread(jhs[i])
 	result = find_tumor(img)
 	cv2.imwrite('Liver_OP/liver-'+str(i).zfill(8)+'.jpg',result)
+
